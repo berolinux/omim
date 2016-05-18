@@ -71,6 +71,7 @@ SUBDIRS = 3party base coding geometry editor indexer routing search openlr
   SUBDIRS *= drape drape_frontend partners_api tracking traffic map
 
   CONFIG(map_designer):CONFIG(desktop) {
+    skin_generator.depends = $$SUBDIRS
     SUBDIRS *= skin_generator
   }
 
@@ -120,6 +121,13 @@ SUBDIRS = 3party base coding geometry editor indexer routing search openlr
     feature_list.depends = $$SUBDIRS
 
     SUBDIRS *= feature_list features_collector_tool search_quality_tool
+  }
+
+  CONFIG(map_designer):CONFIG(no-tests) {
+    # Designer Tool package includes style tests
+    style_tests.subdir = map/style_tests
+    style_tests.depends = map indexer platform geometry coding base
+    SUBDIRS *= style_tests
   }
 
   CONFIG(desktop):!CONFIG(no-tests) {
